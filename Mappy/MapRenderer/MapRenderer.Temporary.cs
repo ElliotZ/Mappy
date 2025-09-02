@@ -4,6 +4,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Extensions;
+using Mappy.Classes;
 using Mappy.Extensions;
 
 namespace Mappy.MapRenderer;
@@ -25,6 +26,11 @@ public partial class MapRenderer
             // Get the actual iconId we want, typically the icon for the marker, not the circle
             var correctIconId = group.FirstOrNull(marker => marker.MapMarker.IconId is not (60493 or 0));
             markerCopy.MapMarker.IconId = correctIconId?.MapMarker.IconId ?? markerCopy.MapMarker.IconId;
+            
+            // Special handling for WKS Markers
+            if (group.Any(marker => marker.Type is 6)) {
+                markerCopy.MapMarker.IconId = DrawHelpers.QuestionMarkIcon;
+            }
 
             // Get the actual radius value for this marker, typically the circle icon will have this value.
             markerCopy.MapMarker.Scale = group.Max(marker => marker.MapMarker.Scale);
