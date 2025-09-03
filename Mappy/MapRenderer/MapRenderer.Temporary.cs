@@ -27,9 +27,13 @@ public partial class MapRenderer
             var correctIconId = group.FirstOrNull(marker => marker.MapMarker.IconId is not (60493 or 0));
             markerCopy.MapMarker.IconId = correctIconId?.MapMarker.IconId ?? markerCopy.MapMarker.IconId;
             
-            // Special handling for WKS Markers
-            if (group.Any(marker => marker.Type is 6)) {
-                markerCopy.MapMarker.IconId = DrawHelpers.QuestionMarkIcon;
+            // Special handling for WKS Markers (in which both icon ids are 0)
+            if (markerCopy.MapMarker.IconId == 0 && group.Count() == 2)
+            {
+                if (markerCopy.Type == 4 && group.Last() is { Type: 6, MapMarker.IconId: 0 })
+                {
+                    markerCopy.MapMarker.IconId = DrawHelpers.QuestionMarkIcon;
+                }
             }
 
             // Get the actual radius value for this marker, typically the circle icon will have this value.
