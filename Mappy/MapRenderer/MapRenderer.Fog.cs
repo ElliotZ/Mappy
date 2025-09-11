@@ -152,7 +152,7 @@ public unsafe partial class MapRenderer
 
     private static byte[]? GetPrebakedTextureBytes()
     {
-        var addon = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
+        var addon = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
         if (addon is null) return null;
 
         var componentMap = (void*)Marshal.ReadIntPtr((nint)addon, 0x430);

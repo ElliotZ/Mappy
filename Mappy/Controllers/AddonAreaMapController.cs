@@ -31,7 +31,7 @@ public unsafe class AddonAreaMapController : IDisposable
             ActivationPath = "/areamap/reset",
             Delegate = _ =>
             {
-                var addon = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
+                var addon = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
                 if (addon is not null && addon->RootNode is not null) {
                     addon->RootNode->SetPositionFloat(addon->X, addon->Y);
                 }
@@ -41,7 +41,7 @@ public unsafe class AddonAreaMapController : IDisposable
 
     private void AddonAreaMapListener(IFramework framework)
     {
-        var addonAreaMap = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
+        var addonAreaMap = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
         if (addonAreaMap is not null) {
             Service.Log.Debug("AddonAreaMap Found, Hooking");
 
@@ -61,7 +61,7 @@ public unsafe class AddonAreaMapController : IDisposable
         hideAreaMapHook?.Dispose();
 
         // Reset windows root node position on dispose
-        var addonAreaMap = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
+        var addonAreaMap = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
         if (addonAreaMap is not null) {
             addonAreaMap->RootNode->SetPositionFloat(addonAreaMap->X, addonAreaMap->Y);
         }
