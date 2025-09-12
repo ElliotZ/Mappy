@@ -317,18 +317,4 @@ public unsafe class IntegrationsController : IDisposable
     }
 
     private static bool IsNameMatch(string name, OpenMapInfo* mapInfo) => string.Equals(name, mapInfo->TitleString.ToString(), StringComparison.OrdinalIgnoreCase);
-
-    // public Vector3 GetLgbEventObjPos(uint lgbEventObjId) {
-    // 	var layout = LayoutWorld.Instance()->ActiveLayout;
-    //
-    // 	if (layout == null) return default;
-    //
-    // 	if (!layout->InstancesByType.TryGetValue(InstanceType.EventObject, out var map, false))
-    // 		return default;
-    //
-    // 	if (!map.Value->TryGetValue((ulong)lgbEventObjId << 32, out var pInstance, false))
-    //
-    // 		return default;
-    // 	return pInstance.Value->GetTransformImpl()->Translation;
-    // }
 }

@@ -15,7 +15,6 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 using KamiLib.Classes;
-using KamiLib.Extensions;
 using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
@@ -152,7 +151,7 @@ public unsafe partial class MapRenderer
 
     private static byte[]? GetPrebakedTextureBytes()
     {
-        var addon = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
+        var addon = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
         if (addon is null) return null;
 
         var componentMap = (void*)Marshal.ReadIntPtr((nint)addon, 0x430);

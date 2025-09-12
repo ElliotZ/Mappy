@@ -10,7 +10,6 @@ using FFXIVClientStructs.FFXIV.Client.UI;
 using FFXIVClientStructs.FFXIV.Client.UI.Agent;
 using KamiLib.Classes;
 using KamiLib.CommandManager;
-using KamiLib.Extensions;
 using KamiLib.Window;
 using Lumina.Excel.Sheets;
 using Mappy.Classes;
@@ -492,7 +491,7 @@ public class MapWindow : Window
 
     private static unsafe bool IsMapLocked()
     {
-        var addon = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
+        var addon = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
         if (addon is null || addon->RootNode is null) return false;
 
         return (addon->Param & 0x8_0000) > 0;

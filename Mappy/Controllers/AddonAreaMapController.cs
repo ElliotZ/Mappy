@@ -31,7 +31,7 @@ public unsafe class AddonAreaMapController : IDisposable
             ActivationPath = "/areamap/reset",
             Delegate = _ =>
             {
-                var addon = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
+                var addon = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
                 if (addon is not null && addon->RootNode is not null) {
                     addon->RootNode->SetPositionFloat(addon->X, addon->Y);
                 }
@@ -41,15 +41,16 @@ public unsafe class AddonAreaMapController : IDisposable
 
     private void AddonAreaMapListener(IFramework framework)
     {
-        var addonAreaMap = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
-        if (addonAreaMap is not null) {
-            Service.Log.Debug("AddonAreaMap Found, Hooking");
+        var addonAreaMap = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
 
-            HookAreaMapFunctions(addonAreaMap);
+        if (addonAreaMap is null) return;
 
-            Service.Log.Debug("Finished Listening for AddonAreaMap");
-            Service.Framework.Update -= AddonAreaMapListener;
-        }
+        Service.Log.Debug("AddonAreaMap Found, Hooking");
+
+        HookAreaMapFunctions(addonAreaMap);
+
+        Service.Log.Debug("Finished Listening for AddonAreaMap");
+        Service.Framework.Update -= AddonAreaMapListener;
     }
 
     public void Dispose()
@@ -61,7 +62,7 @@ public unsafe class AddonAreaMapController : IDisposable
         hideAreaMapHook?.Dispose();
 
         // Reset windows root node position on dispose
-        var addonAreaMap = Service.GameGui.InternalGetAddonByName<AddonAreaMap>("AreaMap");
+        var addonAreaMap = Service.GameGui.GetAddonByName<AddonAreaMap>("AreaMap");
         if (addonAreaMap is not null) {
             addonAreaMap->RootNode->SetPositionFloat(addonAreaMap->X, addonAreaMap->Y);
         }
@@ -132,9 +133,10 @@ public unsafe class AddonAreaMapController : IDisposable
         // and we want the map to stay completely hidden until it's done.
         if (addon->IsVisible || addon->RootNode->Color.A is not 0x00) {
             addon->ForceOffscreen();
+
+            return;
         }
-        else {
-            addon->RestorePosition();
-        }
+
+        addon->RestorePosition();
     }
 }
