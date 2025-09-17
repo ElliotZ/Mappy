@@ -97,7 +97,7 @@ public unsafe partial class MapRenderer : IDisposable
         var fgFile = GetTexFile(vanillaFgPath);
 
         if (bgFile is null || fgFile is null) {
-            Service.Log.Warning("Failed to load map textures");
+            Service.Log.Warning("加载地图纹理失败");
             return null;
         }
 

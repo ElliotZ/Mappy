@@ -26,13 +26,14 @@ public unsafe class IntegrationsController : IDisposable
         showMapHook ??= Service.Hooker.HookFromAddress<AgentMap.Delegates.ShowMap>(AgentMap.MemberFunctionPointers.ShowMap, OnShowHook);
         openMapHook ??= Service.Hooker.HookFromAddress<AgentMap.Delegates.OpenMap>(AgentMap.MemberFunctionPointers.OpenMap, OnOpenMapHook);
 
-        if (Service.ClientState is { IsPvP: false })
-        {
-            EnableIntegrations();
-        }
+        EnableIntegrations();
+        //if (Service.ClientState is { IsPvP: false })
+        //{
+        //    EnableIntegrations();
+        //}
 
-        Service.ClientState.EnterPvP += DisableIntegrations;
-        Service.ClientState.LeavePvP += EnableIntegrations;
+        //Service.ClientState.EnterPvP += DisableIntegrations;
+        //Service.ClientState.LeavePvP += EnableIntegrations;
     }
 
     public void Dispose()
@@ -42,8 +43,8 @@ public unsafe class IntegrationsController : IDisposable
         showMapHook?.Dispose();
         openMapHook?.Dispose();
 
-        Service.ClientState.EnterPvP -= DisableIntegrations;
-        Service.ClientState.LeavePvP -= EnableIntegrations;
+        //Service.ClientState.EnterPvP -= DisableIntegrations;
+        //Service.ClientState.LeavePvP -= EnableIntegrations;
     }
 
     private void EnableIntegrations()
@@ -273,7 +274,8 @@ public unsafe class IntegrationsController : IDisposable
 
     public static bool ShouldShowMap()
     {
-        if (Service.ClientState is { IsLoggedIn: false } or { IsPvP: true }) return false;
+        if (Service.ClientState is { IsLoggedIn: false }) return false;
+        //if (Service.ClientState is { IsLoggedIn: false } or { IsPvP: true }) return false;
         if (System.SystemConfig.HideInCombat && Service.Condition.IsInCombat()) return false;
         if (System.SystemConfig.HideBetweenAreas && Service.Condition.IsBetweenAreas()) return false;
         if (System.SystemConfig.HideWithGameGui && !IsNamePlateAddonVisible()) return false;

@@ -21,9 +21,9 @@ public class FateListWindow : Window
 {
     private const float ElementHeight = 48.0f;
 
-    public FateListWindow() : base("Mappy Fate List Window", new Vector2(300.0f, 400.0f))
+    public FateListWindow() : base("Mappy危命列表窗口", new Vector2(300.0f, 400.0f))
     {
-        AdditionalInfoTooltip = "Shows Fates for the zone you are currently in";
+        AdditionalInfoTooltip = "显示您当前所在区域的危命";
     }
 
     protected override unsafe void DrawContents()
@@ -47,7 +47,7 @@ public class FateListWindow : Window
             }
         }
         else {
-            const string text = "No FATE's available";
+            const string text = "暂无危命可打";
             var textSize = ImGui.CalcTextSize(text);
             ImGui.SetCursorPosX(ImGui.GetContentRegionAvail().X / 2.0f - textSize.X / 2.0f);
             ImGui.SetCursorPosY(ImGui.GetContentRegionAvail().Y / 2.0f - textSize.Y / 2.0f);
@@ -77,11 +77,11 @@ public class FateListWindow : Window
 
     private static void DrawOptions()
     {
-        using var toolbarChild = ImRaii.Child("fatelist_toolbar", new Vector2(ImGui.GetContentRegionAvail().X, 32.0f));
+        using var toolbarChild = ImRaii.Child("危命列表工具栏", new Vector2(ImGui.GetContentRegionAvail().X, 32.0f));
         if (toolbarChild) {
             using var color = ImRaii.PushColor(ImGuiCol.Button, ImGui.GetStyle().GetColor(ImGuiCol.ButtonActive), System.SystemConfig.SetFlagOnFateClick);
             ImGui.Spacing();
-            if (ImGui.Checkbox("Place Map Flag on Click", ref System.SystemConfig.SetFlagOnFateClick)) {
+            if (ImGui.Checkbox("点击时放置标记旗帜", ref System.SystemConfig.SetFlagOnFateClick)) {
                 SystemConfig.Save();
             }
         }
@@ -114,11 +114,11 @@ public class FateListWindow : Window
             ImGui.TextColored(FateContextExtensions.GetColor(fate, 1.0f), $"Lv. {fate->Level} {fate->Name}");
 
             if (fate->State is FateState.Running) {
-                ImGui.TextUnformatted($"Progress: {fate->Progress}%");
+                ImGui.TextUnformatted($"进度: {fate->Progress}%");
 
                 var timeRemaining = FateContextExtensions.GetTimeRemaining(fate);
                 if (timeRemaining != TimeSpan.Zero) {
-                    var timeString = $"{(fate->IsBonus ? "Exp Bonus!\t" : string.Empty)}{SeIconChar.Clock.ToIconString()} {FateContextExtensions.GetTimeRemaining(fate):mm\\:ss}";
+                    var timeString = $"{(fate->IsBonus ? "经验加成！\t" : string.Empty)}{SeIconChar.Clock.ToIconString()} {FateContextExtensions.GetTimeRemaining(fate):mm\\:ss}";
                     ImGui.SameLine(ImGui.GetContentRegionMax().X - ImGui.CalcTextSize(timeString).X);
                     ImGui.Text(timeString);
                 }

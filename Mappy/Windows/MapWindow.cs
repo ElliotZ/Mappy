@@ -52,7 +52,8 @@ public class MapWindow : Window
             IsOpen = true;
         }
 
-        if (Service.ClientState is { IsLoggedIn: false } or { IsPvP: true }) IsOpen = false;
+        if (Service.ClientState is { IsLoggedIn: false }) IsOpen = false;
+        //if (Service.ClientState is { IsLoggedIn: false } or { IsPvP: true }) IsOpen = false;
     }
 
     public override void OnOpen()
@@ -200,7 +201,7 @@ public class MapWindow : Window
             }
         }
 
-        WindowName = $"Mappy Map Window{subLocationString}###MappyMapWindow";
+        WindowName = $"Mappy 地图窗口{subLocationString}###MappyMapWindow";
 
         lastMapId = AgentMap.Instance()->SelectedMapId;
         lastAreaPlaceNameId = TerritoryInfo.Instance()->AreaPlaceNameId;
@@ -217,7 +218,7 @@ public class MapWindow : Window
     private void ProcessInputs()
     {
         if (ImGui.IsItemClicked(ImGuiMouseButton.Right)) {
-            ImGui.OpenPopup("Mappy_Context_Menu");
+            ImGui.OpenPopup("Mappy右键菜单");
         }
         else {
             if (HoveredFlags.Any()) {
@@ -315,8 +316,8 @@ public class MapWindow : Window
     private static void DrawSpoilerWarning()
     {
         using (ImRaii.PushColor(ImGuiCol.Text, KnownColor.Orange.Vector())) {
-            const string warningLine1 = "Warning, Mappy does not protect you from spoilers and will show everything.";
-            const string warningLine2 = "Do not use Mappy if you are not comfortable with this.";
+            const string warningLine1 = "警告，Mappy 并没有防剧透功能，会显示所有东西。";
+            const string warningLine2 = "若引起不适，请禁用 Mappy。";
 
             ImGui.SetCursorPos(ImGui.GetContentRegionAvail() / 2.0f - (ImGui.CalcTextSize(warningLine1) * 2.0f) with { X = 0.0f });
             ImGuiHelpers.CenteredText(warningLine1);
@@ -326,14 +327,14 @@ public class MapWindow : Window
         ImGuiHelpers.ScaledDummy(30.0f);
         ImGui.SetCursorPosX(ImGui.GetContentRegionAvail().X / 3.0f);
         using (ImRaii.Disabled(!(ImGui.GetIO().KeyShift && ImGui.GetIO().KeyCtrl))) {
-            if (ImGui.Button("I understand", new Vector2(ImGui.GetContentRegionAvail().X / 2.0f, 23.0f * ImGuiHelpers.GlobalScale))) {
+            if (ImGui.Button("我明白了", new Vector2(ImGui.GetContentRegionAvail().X / 2.0f, 23.0f * ImGuiHelpers.GlobalScale))) {
                 System.SystemConfig.AcceptedSpoilerWarning = true;
                 SystemConfig.Save();
             }
 
             using (ImRaii.PushStyle(ImGuiStyleVar.Alpha, 1.0f)) {
                 if (ImGui.IsItemHovered(ImGuiHoveredFlags.AllowWhenDisabled)) {
-                    ImGui.SetTooltip("Hold Shift + Control while clicking activate button");
+                    ImGui.SetTooltip("点击激活按钮时按住 Shift + Control");
                 }
             }
         }
