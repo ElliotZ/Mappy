@@ -218,7 +218,7 @@ public class MapWindow : Window
     private void ProcessInputs()
     {
         if (ImGui.IsItemClicked(ImGuiMouseButton.Right)) {
-            ImGui.OpenPopup("Mappy右键菜单");
+            ImGui.OpenPopup("Mappy_Context_Menu");
         }
         else {
             if (HoveredFlags.Any()) {
