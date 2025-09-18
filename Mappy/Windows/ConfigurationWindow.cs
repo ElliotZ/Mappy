@@ -79,7 +79,7 @@ public class MapFunctionsTab : ITabItem
             configChanged |= ImGui.Checkbox("以任务居中", ref System.SystemConfig.CenterOnQuest);
         }
 
-        ImGuiTweaks.Header("杂项s");
+        ImGuiTweaks.Header("杂项");
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.Checkbox("显示其他工具提示", ref System.SystemConfig.ShowMiscTooltips);
             configChanged |= ImGui.Checkbox("锁定地图居中", ref System.SystemConfig.LockCenterOnMap);
@@ -89,8 +89,8 @@ public class MapFunctionsTab : ITabItem
             ImGuiHelpers.ScaledDummy(5.0f);
 
             configChanged |= ImGui.Checkbox("显示文本标签", ref System.SystemConfig.ShowTextLabels);
-            configChanged |= ImGui.DragFloat("大尺寸图标", ref System.SystemConfig.LargeAreaTextScale, 0.01f, 1.0f, 4.0f);
-            configChanged |= ImGui.DragFloat("小尺寸图标", ref System.SystemConfig.SmallAreaTextScale, 0.01f, 0.5f, 3.0f);
+            configChanged |= ImGui.DragFloat("大文本尺寸", ref System.SystemConfig.LargeAreaTextScale, 0.01f, 1.0f, 4.0f);
+            configChanged |= ImGui.DragFloat("小文本尺寸", ref System.SystemConfig.SmallAreaTextScale, 0.01f, 0.5f, 3.0f);
 
             ImGuiHelpers.ScaledDummy(5.0f);
 
@@ -107,7 +107,7 @@ public class MapFunctionsTab : ITabItem
             configChanged |= ImGui.Checkbox("悬停时显示", ref System.SystemConfig.ShowToolbarOnHover);
 
             ImGuiHelpers.ScaledDummy(5.0f);
-            configChanged |= ImGui.DragFloat("不透明度y##toolbar", ref System.SystemConfig.ToolbarFade, 0.01f, 0.0f, 1.0f);
+            configChanged |= ImGui.DragFloat("不透明度##toolbar", ref System.SystemConfig.ToolbarFade, 0.01f, 0.0f, 1.0f);
         }
 
         ImGuiTweaks.Header("坐标");
@@ -143,7 +143,7 @@ public class MapFunctionsTab : ITabItem
         }
 
         ImGui.SameLine();
-        ImGui.Text("\t\t打开时居中");
+        ImGui.Text("\t\t 打开时居中");
     }
 }
 
@@ -168,7 +168,7 @@ public class StyleOptionsTab : ITabItem
 
         ImGuiTweaks.Header("窗口隐藏");
         using (ImRaii.PushIndent()) {
-            configChanged |= ImGui.Checkbox("开打游戏界面时隐藏", ref System.SystemConfig.HideWithGameGui);
+            configChanged |= ImGui.Checkbox("随游戏GUI隐藏", ref System.SystemConfig.HideWithGameGui);
             configChanged |= ImGui.Checkbox("切换区域时隐藏", ref System.SystemConfig.HideBetweenAreas);
             configChanged |= ImGui.Checkbox("战斗中隐藏", ref System.SystemConfig.HideInCombat);
         }
@@ -298,7 +298,7 @@ public class IconConfigurationTab : ITabItem
 
     public void Draw()
     {
-        using (var leftChild = ImRaii.Child("左侧面板", new Vector2(48.0f * ImGuiHelpers.GlobalScale + ImGui.GetStyle().ItemSpacing.X, ImGui.GetContentRegionAvail().Y))) {
+        using (var leftChild = ImRaii.Child("left_child", new Vector2(48.0f * ImGuiHelpers.GlobalScale + ImGui.GetStyle().ItemSpacing.X, ImGui.GetContentRegionAvail().Y))) {
             if (leftChild) {
                 using var selectionList = ImRaii.ListBox("图标选项", ImGui.GetContentRegionAvail());
 
@@ -320,7 +320,7 @@ public class IconConfigurationTab : ITabItem
 
         ImGui.SameLine();
 
-        using (var rightChild = ImRaii.Child("右侧面板", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.NoScrollbar)) {
+        using (var rightChild = ImRaii.Child("right_child", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.NoScrollbar)) {
             if (rightChild) {
                 if (currentSetting is null) {
                     using var textColor = ImRaii.PushColor(ImGuiCol.Text, KnownColor.Orange.Vector());

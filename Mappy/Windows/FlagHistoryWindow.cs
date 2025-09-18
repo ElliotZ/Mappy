@@ -14,9 +14,9 @@ public class FlagHistoryWindow : Window
 {
     private static float FlagElementHeight => 95.0f * ImGuiHelpers.GlobalScale;
 
-    public FlagHistoryWindow() : base("Mappy Flag History Window", new Vector2(400.0f, 400.0f))
+    public FlagHistoryWindow() : base("Mappy 旗帜列表窗口", new Vector2(400.0f, 400.0f))
     {
-        AdditionalInfoTooltip = "Shows a list of all recently used flags";
+        AdditionalInfoTooltip = "显示最近所有使用过的旗帜列表";
     }
 
     protected override void DrawContents()

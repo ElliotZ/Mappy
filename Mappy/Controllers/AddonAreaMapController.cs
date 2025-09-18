@@ -84,10 +84,11 @@ public unsafe class AddonAreaMapController : IDisposable
     {
         showAreaMapHook = Service.Hooker.HookFromAddress<AddonAreaMap.Delegates.Show>(areaMap->VirtualTable->Show, OnAreaMapShow);
         hideAreaMapHook = Service.Hooker.HookFromAddress<AddonAreaMap.Delegates.Hide>(areaMap->VirtualTable->Hide, OnAreaMapHide);
-
-        if (Service.ClientState is { IsPvP: false }) {
-            EnableIntegrations();
-        }
+        
+        EnableIntegrations();
+        // if (Service.ClientState is { IsPvP: false }) {
+        //     EnableIntegrations();
+        // }
     }
 
     private void OnAreaMapShow(AddonAreaMap* thisPtr, bool silenceOpenSoundEffect, uint unsetShowHideFlags) =>
@@ -121,13 +122,13 @@ public unsafe class AddonAreaMapController : IDisposable
     {
         var addon = args.GetAddon<AddonAreaMap>();
 
-        if (Service.ClientState is { IsPvP: true }) {
-            if (addon->IsOffscreen()) {
-                addon->RestorePosition();
-            }
-
-            return;
-        }
+        // if (Service.ClientState is { IsPvP: true }) {
+        //     if (addon->IsOffscreen()) {
+        //         addon->RestorePosition();
+        //     }
+        //
+        //     return;
+        // }
 
         // Have to check for color, because it likes to animate a fadeout,
         // and we want the map to stay completely hidden until it's done.

@@ -17,7 +17,7 @@ public unsafe class MapContextMenu
 
         if (!contextMenu) return;
 
-        if (ImGui.MenuItem("Place Flag")) {
+        if (ImGui.MenuItem("放置旗帜")) {
             var cursorPosition = ImGui.GetMousePosOnOpeningCurrentPopup(); // Get initial cursor position (screen relative)
             var mapChildOffset = mapDrawOffset; // Get the screen position we started drawing the map at
             var mapDrawPositionOffset = System.MapRenderer.DrawPosition; // Get the map texture top left offset vector
@@ -30,39 +30,39 @@ public unsafe class MapContextMenu
             AgentChatLog.Instance()->InsertTextCommandParam(1048, false);
         }
 
-        if (ImGui.MenuItem("Remove Flag", false, AgentMap.Instance()->FlagMarkerCount is not 0)) {
+        if (ImGui.MenuItem("移除旗帜", false, AgentMap.Instance()->FlagMarkerCount is not 0)) {
             AgentMap.Instance()->FlagMarkerCount = 0;
         }
 
         ImGuiHelpers.ScaledDummy(5.0f);
 
-        if (ImGui.MenuItem("Center on Player", false, Service.ClientState.LocalPlayer is not null) && Service.ClientState.LocalPlayer is not null) {
+        if (ImGui.MenuItem("以玩家为中心", false, Service.ClientState.LocalPlayer is not null) && Service.ClientState.LocalPlayer is not null) {
             System.IntegrationsController.OpenOccupiedMap();
             System.MapRenderer.CenterOnGameObject(Service.ClientState.LocalPlayer);
         }
 
-        if (ImGui.MenuItem("Center on Map")) {
+        if (ImGui.MenuItem("以地图为中心")) {
             System.SystemConfig.FollowPlayer = false;
             System.MapRenderer.DrawOffset = Vector2.Zero;
         }
 
         ImGuiHelpers.ScaledDummy(5.0f);
 
-        if (ImGui.MenuItem("Lock Zoom", "", ref System.SystemConfig.ZoomLocked)) {
+        if (ImGui.MenuItem("锁定缩放", "", ref System.SystemConfig.ZoomLocked)) {
             SystemConfig.Save();
         }
 
         ImGuiHelpers.ScaledDummy(5.0f);
 
-        if (ImGui.MenuItem("Open Quest List", false, System.WindowManager.GetWindow<QuestListWindow>() is null)) {
+        if (ImGui.MenuItem("打开任务列表窗口", false, System.WindowManager.GetWindow<QuestListWindow>() is null)) {
             System.WindowManager.AddWindow(new QuestListWindow(), WindowFlags.OpenImmediately | WindowFlags.RequireLoggedIn);
         }
 
-        if (ImGui.MenuItem("Open Fate List", false, System.WindowManager.GetWindow<FateListWindow>() is null)) {
+        if (ImGui.MenuItem("打开危命列表窗口", false, System.WindowManager.GetWindow<FateListWindow>() is null)) {
             System.WindowManager.AddWindow(new FateListWindow(), WindowFlags.OpenImmediately | WindowFlags.RequireLoggedIn);
         }
 
-        if (ImGui.MenuItem("Open Flag List", false, System.WindowManager.GetWindow<FlagHistoryWindow>() is null)) {
+        if (ImGui.MenuItem("打开旗帜列表窗口", false, System.WindowManager.GetWindow<FlagHistoryWindow>() is null)) {
             System.WindowManager.AddWindow(new FlagHistoryWindow(), WindowFlags.OpenImmediately | WindowFlags.RequireLoggedIn);
         }
     }
