@@ -85,10 +85,10 @@ public unsafe class AddonAreaMapController : IDisposable
         showAreaMapHook = Service.Hooker.HookFromAddress<AddonAreaMap.Delegates.Show>(areaMap->VirtualTable->Show, OnAreaMapShow);
         hideAreaMapHook = Service.Hooker.HookFromAddress<AddonAreaMap.Delegates.Hide>(areaMap->VirtualTable->Hide, OnAreaMapHide);
         
-        EnableIntegrations();
-        // if (Service.ClientState is { IsPvP: false }) {
-        //     EnableIntegrations();
-        // }
+        if (Service.ClientState is not null/*{ IsPvP: false }*/) 
+        { 
+            EnableIntegrations(); 
+        }
     }
 
     private void OnAreaMapShow(AddonAreaMap* thisPtr, bool silenceOpenSoundEffect, uint unsetShowHideFlags) =>

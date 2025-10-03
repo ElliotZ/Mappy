@@ -58,6 +58,8 @@ public class MapWindow : Window
 
     public override void OnOpen()
     {
+        BgAlpha = System.SystemConfig.WindowBgFadePercent;
+        
         if (ProcessingCommand) {
             ProcessingCommand = false;
             System.SystemConfig.FollowPlayer = false;

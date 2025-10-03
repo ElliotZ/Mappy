@@ -97,6 +97,7 @@ public class SystemConfig : CharacterConfiguration
     public bool ShowFogOfWar = true;
     public bool ScaleTextWithZoom = true;
     public float AutoZoomScaleFactor = 0.33f;
+    public float WindowBgFadePercent = 0.30f;
 
     // Do not persist this setting
     [JsonIgnore]

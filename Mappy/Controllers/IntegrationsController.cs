@@ -25,12 +25,11 @@ public unsafe class IntegrationsController : IDisposable
     {
         showMapHook ??= Service.Hooker.HookFromAddress<AgentMap.Delegates.ShowMap>(AgentMap.MemberFunctionPointers.ShowMap, OnShowHook);
         openMapHook ??= Service.Hooker.HookFromAddress<AgentMap.Delegates.OpenMap>(AgentMap.MemberFunctionPointers.OpenMap, OnOpenMapHook);
-
-        EnableIntegrations();
-        //if (Service.ClientState is { IsPvP: false })
-        //{
-        //    EnableIntegrations();
-        //}
+        
+        if (Service.ClientState is not null/*{ IsPvP: false }*/)
+        {
+            EnableIntegrations();
+        }
 
         //Service.ClientState.EnterPvP += DisableIntegrations;
         //Service.ClientState.LeavePvP += EnableIntegrations;

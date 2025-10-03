@@ -164,6 +164,7 @@ public class StyleOptionsTab : ITabItem
             configChanged |= ImGui.Checkbox("隐藏窗口边框", ref System.SystemConfig.HideWindowFrame);
             configChanged |= ImGui.Checkbox("隐藏窗口背景", ref System.SystemConfig.HideWindowBackground);
             configChanged |= ImGui.Checkbox("启用按住 Shift + 鼠标拖动来移动窗口边框", ref System.SystemConfig.EnableShiftDragMove);
+            configChanged |= ImGui.DragFloat("淡化窗口背景不透明度", ref System.SystemConfig.WindowBgFadePercent, 0.01f, 0.01f, 1.0f);
         }
 
         ImGuiTweaks.Header("窗口隐藏");
