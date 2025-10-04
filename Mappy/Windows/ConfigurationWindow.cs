@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Numerics;
@@ -156,6 +157,13 @@ public class StyleOptionsTab : ITabItem
     public void Draw()
     {
         var configChanged = false;
+        List<AnchorPoint> comboList =
+        [
+                AnchorPoint.UpperLeft,
+                AnchorPoint.UpperRight,
+                AnchorPoint.LowerLeft, 
+                AnchorPoint.LowerRight, 
+        ];
 
         ImGuiTweaks.Header("窗口选项");
         using (ImRaii.PushIndent()) {
@@ -186,6 +194,8 @@ public class StyleOptionsTab : ITabItem
         using (ImRaii.PushIndent()) {
             configChanged |= ImGui.DragFloat2("窗口位置", ref System.SystemConfig.WindowPosition);
             configChanged |= ImGui.DragFloat2("窗口尺寸", ref System.SystemConfig.WindowSize);
+            configChanged |= ImGui.DragFloat2("切换窗口尺寸", ref System.SystemConfig.ToggledWindowSize);
+            configChanged |= ImGui.Combo("锚点位置", ref System.SystemConfig.AnchorPoint, comboList, point => point.GetDescription());
         }
 
         ImGuiTweaks.Header("淡化选项");

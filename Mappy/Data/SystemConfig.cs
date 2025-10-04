@@ -36,6 +36,19 @@ public enum FadeMode
     WhenUnFocused = 1 << 4,
 }
 
+public enum AnchorPoint
+{
+    [Description("左上")]
+    UpperLeft = 0,
+    [Description("右上")]
+    UpperRight = 1,
+    [Description("左下")]
+    LowerLeft = 2,
+    [Description("右下")]
+    LowerRight = 3,
+
+}
+
 public class SystemConfig : CharacterConfiguration
 {
     public bool UseLinearZoom = false;
@@ -98,6 +111,8 @@ public class SystemConfig : CharacterConfiguration
     public bool ScaleTextWithZoom = true;
     public float AutoZoomScaleFactor = 0.33f;
     public float WindowBgFadePercent = 0.30f;
+    public int AnchorPoint = 3;
+    public Vector2 ToggledWindowSize = new(500f, 500f);
 
     // Do not persist this setting
     [JsonIgnore]

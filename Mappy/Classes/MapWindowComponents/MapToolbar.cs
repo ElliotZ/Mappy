@@ -94,20 +94,28 @@ public unsafe class MapToolbar
             }, WindowFlags.OpenImmediately | WindowFlags.RequireLoggedIn);
         }
 
-        var offset = System.SystemConfig.HideWindowFrame ? 50.0f : 25.0f;
+        var offset = System.SystemConfig.HideWindowFrame ? 75.0f : 50.0f;
 
         ImGui.SameLine();
-        ImGui.SetCursorPosX(ImGui.GetContentRegionMax().X - offset * ImGuiHelpers.GlobalScale - ImGui.GetStyle().ItemSpacing.X);
+        ImGui.SetCursorPosX(ImGui.GetContentRegionMax().X - offset * ImGuiHelpers.GlobalScale - 3 * ImGui.GetStyle().ItemSpacing.X);
 
         if (MappyGuiTweaks.IconButton(FontAwesomeIcon.Cog, "settings", "打开设置")) {
             System.ConfigWindow.UnCollapseOrShow();
             ImGui.SetWindowFocus(System.ConfigWindow.WindowName);
         }
-
-        if (!System.SystemConfig.HideWindowFrame) return;
-
+        
         ImGui.SameLine();
 
+        var xpndIcon = System.MapWindow.isTempSize ? FontAwesomeIcon.Compress : FontAwesomeIcon.Expand;
+        if (MappyGuiTweaks.IconButton(xpndIcon, "toggleSize", "切换大小"))
+        {
+            System.MapWindow.isTempSize = !System.MapWindow.isTempSize;
+        }
+        
+        if (!System.SystemConfig.HideWindowFrame) return;
+        
+        ImGui.SameLine();
+        
         if (MappyGuiTweaks.IconButton(FontAwesomeIcon.Times, "closeMap", "关闭地图"))
         {
             System.MapWindow.Close();

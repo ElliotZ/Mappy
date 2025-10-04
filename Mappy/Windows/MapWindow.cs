@@ -25,12 +25,14 @@ public class MapWindow : Window
     public Vector2 MapDrawOffset { get; private set; }
     public HoverFlags HoveredFlags { get; private set; }
     public bool ProcessingCommand { get; set; }
+    public bool isTempSize { get; set; }
 
     private bool isDragStarted;
     private Vector2 lastWindowSize;
     private uint lastMapId;
     private uint lastAreaPlaceNameId;
     private uint lastSubAreaPlaceNameId;
+
 
     private readonly MapToolbar mapToolbar = new();
     private readonly MapCoordinateBar mapCoordinateBar = new();
@@ -289,30 +291,45 @@ public class MapWindow : Window
     private void UpdateSizePosition()
     {
         var systemConfig = System.SystemConfig;
+        var sizeConfig = isTempSize ? systemConfig.ToggledWindowSize : systemConfig.WindowSize;
+        var convertedWindowPosConfig = systemConfig.AnchorPoint switch
+        {
+                0 => systemConfig.WindowPosition,
+                1 => systemConfig.WindowPosition - sizeConfig with { Y = 0 },
+                2 => systemConfig.WindowPosition - sizeConfig with { X = 0 },
+                _ => systemConfig.WindowPosition - sizeConfig,
+        };
         var windowPosition = ImGui.GetWindowPos();
+        var convertedWindowPos = systemConfig.AnchorPoint switch
+        {
+                0 => windowPosition,
+                1 => windowPosition + sizeConfig with { Y = 0 },
+                2 => windowPosition + sizeConfig with { X = 0 },
+                _ => windowPosition + sizeConfig,
+        };
         var windowSize = ImGui.GetWindowSize();
 
-        if (!IsFocused) {
-            if (windowPosition != systemConfig.WindowPosition) {
-                ImGui.SetWindowPos(systemConfig.WindowPosition);
-            }
-
-            if (windowSize != systemConfig.WindowSize) {
-                ImGui.SetWindowSize(systemConfig.WindowSize);
-            }
+        //if (!IsFocused) {
+        if (windowPosition != convertedWindowPosConfig) {
+            ImGui.SetWindowPos(convertedWindowPosConfig);
         }
-        else {
+
+        if (windowSize != sizeConfig) {
+            ImGui.SetWindowSize(sizeConfig);
+        }
+        
+/*        else {
             // If focused
-            if (systemConfig.WindowPosition != windowPosition) {
-                systemConfig.WindowPosition = windowPosition;
+            if (systemConfig.WindowPosition != convertedWindowPos) {
+                systemConfig.WindowPosition = convertedWindowPos;
                 SystemConfig.Save();
             }
 
-            if (systemConfig.WindowSize != windowSize) {
+            if (sizeConfig != windowSize) {
                 systemConfig.WindowSize = windowSize;
                 SystemConfig.Save();
             }
-        }
+        }*/
     }
 
     private static void DrawSpoilerWarning()
