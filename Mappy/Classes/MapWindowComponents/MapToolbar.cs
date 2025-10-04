@@ -110,6 +110,16 @@ public unsafe class MapToolbar
         if (MappyGuiTweaks.IconButton(xpndIcon, "toggleSize", "切换大小"))
         {
             System.MapWindow.isTempSize = !System.MapWindow.isTempSize;
+
+            if (System.MapWindow.isTempSize)
+            {
+                System.SystemConfig.FollowPlayer = false;
+                System.MapRenderer.DrawOffset = Vector2.Zero;
+            }
+            else
+            {
+                System.SystemConfig.FollowPlayer = true;
+            }
         }
         
         if (!System.SystemConfig.HideWindowFrame) return;
